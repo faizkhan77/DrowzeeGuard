@@ -19,6 +19,7 @@
 ## Folder Structure  
 
 - **app.py**: Main Flask app where all detection logic is implemented.
+- **Proper_Drowsiness_Detection_using_YOLOv11.ipynb**: Contains the entire step how i fine tuned the YOLO11 model on custom dataset
 - **best.py**: Fine-tuned YOLOv11 model for gesture detection.
 - **collect_images.py**: Script for collecting images to create a custom dataset.
 - **web_cam_detection.py**: A test script for live gesture detection using the fine-tuned model.
