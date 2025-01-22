@@ -1,0 +1,428 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+    line-height: 1.6;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Main Container */
+.mainContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.container {
+    /* width: 90%; */
+    /* max-width: 1200px; */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowingText 2s infinite;
+}
+
+@keyframes glowingText {
+
+    0%,
+    100% {
+        text-shadow: 0 0 10px #00d2ff, 0 0 20px #3a7bd5, 0 0 30px #00d2ff;
+    }
+
+    50% {
+        text-shadow: 0 0 20px #3a7bd5, 0 0 30px #00d2ff, 0 0 40px #3a7bd5;
+    }
+}
+
+.header p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.button1 {
+    display: inline-block;
+    background: #00d2ff;
+    color: #000;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.button1:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+}
+
+.upload-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-upload {
+    /* display: inline-block;
+    position: relative;
+    overflow: hidden; */
+    padding: 15px 20px;
+    text-align: center;
+
+    background: #203a43;
+    border: 2px dashed #00d2ff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.file-upload:hover {
+    background: #2c5364;
+}
+
+.file-upload input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    cursor: pointer;
+}
+
+.alert {
+    margin-top: 20px;
+    padding: 15px;
+    /* background: rgba(0, 255, 0, 0.2);
+    border: 1px solid #00ff00;
+    color: #00ff00; */
+    text-align: center;
+    border-radius: 5px;
+    display: none;
+}
+
+/* From Uiverse.io by vikramsinghnegi */
+.center-body {
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    /* background: #262626; */
+    height: 100%;
+
+}
+
+.loader-circle-9 {
+    position: relative;
+    /* Change to relative to maintain normal flow */
+    width: 70px;
+    height: 70px;
+    background: transparent;
+    border: 3px solid #3c3c3c;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 70px;
+    font-family: sans-serif;
+    font-size: 12px;
+    color: #00eaff;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    /* margin-top: 50px; */
+    /* Move loader down on the y-axis */
+}
+
+.loader-circle-9:before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-top: 3px solid #00eaff;
+    border-right: 3px solid #00eaff;
+    border-radius: 50%;
+    animation: animateC 2s linear infinite;
+}
+
+.loader-circle-9 span {
+    display: block;
+    position: absolute;
+    top: calc(50% - 2px);
+    left: 50%;
+    width: 50%;
+    height: 4px;
+    background: transparent;
+    transform-origin: left;
+    animation: animate 2s linear infinite;
+}
+
+.loader-circle-9 span:before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #00eaff;
+    top: -6px;
+    right: -8px;
+    box-shadow: 0 0 20px #00eaff;
+}
+
+@keyframes animateC {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(45deg);
+    }
+
+    100% {
+        transform: rotate(405deg);
+    }
+}
+
+
+footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+footer a {
+    color: #00d2ff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Media Query for Small Screens */
+@media (max-width: 768px) {
+    .upload-container {
+        flex-direction: column;
+        /* Stack items vertically */
+        align-items: center;
+        /* Center items horizontally */
+        margin: 0 auto;
+        /* Center the container itself */
+    }
+
+    .button1,
+    .file-upload {
+        width: 90%;
+        /* Make buttons and file upload take up most of the width */
+        margin-bottom: 15px;
+        /* Add space between stacked elements */
+        text-align: center;
+        /* Ensure content inside is centered */
+    }
+}
+
+
+/* NAVBAR DESIGNS */
+.nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    /* background-color: #fff; */
+    border-radius: 8px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+/* From Uiverse.io by eslam-hany */
+.button-container {
+    display: flex;
+    background-color: rgba(0, 73, 144);
+    width: 250px;
+    height: 40px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+        rgba(0, 73, 144, 0.5) 5px 10px 15px;
+    transition: all 0.5s;
+    /* margin-bottom: 100px; */
+}
+
+.button-container:hover {
+    width: 300px;
+    transition: all 0.5s;
+}
+
+.button {
+    outline: 0 !important;
+    border: 0 !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+}
+
+.icon {
+    font-size: 20px;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .button-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .upload-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .header p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .button {
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+    }
+
+    .icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .button1 {
+        width: 100%;
+    }
+
+    .file-upload {
+        width: 100%;
+    }
+
+    footer {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+/* for display_image.html */
+.image-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-btn a {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.back-btn a:hover {
+    background-color: #0056b3;
+}

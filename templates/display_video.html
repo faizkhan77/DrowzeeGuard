@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drowsiness Detection - Results</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+    line-height: 1.6;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Main Container */
+.mainContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.container {
+    /* width: 90%; */
+    /* max-width: 1200px; */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowingText 2s infinite;
+}
+
+@keyframes glowingText {
+
+    0%,
+    100% {
+        text-shadow: 0 0 10px #00d2ff, 0 0 20px #3a7bd5, 0 0 30px #00d2ff;
+    }
+
+    50% {
+        text-shadow: 0 0 20px #3a7bd5, 0 0 30px #00d2ff, 0 0 40px #3a7bd5;
+    }
+}
+
+.header p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+.options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.button1 {
+    display: inline-block;
+    background: #00d2ff;
+    color: #000;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.button1:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+}
+
+.upload-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-upload {
+    /* display: inline-block;
+    position: relative;
+    overflow: hidden; */
+    padding: 15px 20px;
+    text-align: center;
+
+    background: #203a43;
+    border: 2px dashed #00d2ff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.file-upload:hover {
+    background: #2c5364;
+}
+
+.file-upload input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    cursor: pointer;
+}
+
+.alert {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 255, 0, 0.2);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    text-align: center;
+    border-radius: 5px;
+    display: none;
+}
+
+footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+footer a {
+    color: #00d2ff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Media Query for Small Screens */
+@media (max-width: 768px) {
+    .upload-container {
+        flex-direction: column;
+        /* Stack items vertically */
+        align-items: center;
+        /* Center items horizontally */
+        margin: 0 auto;
+        /* Center the container itself */
+    }
+
+    .button1,
+    .file-upload {
+        width: 90%;
+        /* Make buttons and file upload take up most of the width */
+        margin-bottom: 15px;
+        /* Add space between stacked elements */
+        text-align: center;
+        /* Ensure content inside is centered */
+    }
+}
+
+
+/* NAVBAR DESIGNS */
+.nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    /* background-color: #fff; */
+    border-radius: 8px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+/* From Uiverse.io by eslam-hany */
+.button-container {
+    display: flex;
+    background-color: rgba(0, 73, 144);
+    width: 250px;
+    height: 40px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+        rgba(0, 73, 144, 0.5) 5px 10px 15px;
+    transition: all 0.5s;
+    /* margin-bottom: 100px; */
+}
+
+.button-container:hover {
+    width: 300px;
+    transition: all 0.5s;
+}
+
+.button {
+    outline: 0 !important;
+    border: 0 !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+}
+
+.icon {
+    font-size: 20px;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .button-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .upload-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .header p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .button {
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+    }
+
+    .icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .button1 {
+        width: 100%;
+    }
+
+    .file-upload {
+        width: 100%;
+    }
+
+    footer {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+/* for display_image.html */
+.image-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-btn a {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.back-btn a:hover {
+    background-color: #0056b3;
+}
+
+
+.image-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* .image-container img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+} */
+
+.back-btn {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.back-btn a {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.back-btn a:hover {
+  background-color: #0056b3;
+}
+
+
+/* From Uiverse.io by vinodjangid07 */ 
+
+.download-btn{
+    /* background-color: #000; */
+    display: flex;
+    justify-content: center;
+    gap:20px;
+}
+.Btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgb(27, 27, 27);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.11);
+  }
+  
+  .svgIcon {
+    fill: #00D2FF;
+  }
+  
+  .icon2 {
+    width: 18px;
+    height: 5px;
+    border-bottom: 2px solid #00D2FF;
+    border-left: 2px solid #00D2FF;
+    border-right: 2px solid #00D2FF;
+  }
+  
+  .tooltip {
+    position: absolute;
+    right: -105px;
+    opacity: 0;
+    background-color: rgb(12, 12, 12);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-duration: .2s;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+  }
+  
+  .tooltip::before {
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: rgb(12, 12, 12);
+    background-size: 1000%;
+    background-position: center;
+    transform: rotate(45deg);
+    left: -5%;
+    transition-duration: .3s;
+  }
+  
+  .Btn:hover .tooltip {
+    opacity: 1;
+    transition-duration: .3s;
+  }
+  
+  .Btn:hover {
+    background-color: #00D2FF;
+    transition-duration: .3s;
+  }
+  
+  .Btn:hover .icon2 {
+    border-bottom: 2px solid rgb(235, 235, 235);
+    border-left: 2px solid rgb(235, 235, 235);
+    border-right: 2px solid rgb(235, 235, 235);
+  }
+  
+  .Btn:hover .svgIcon {
+    fill: rgb(255, 255, 255);
+    animation: slide-in-top 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
+  
+  @keyframes slide-in-top {
+    0% {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+  
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+  
+
+  </style>
+</head>
+<body>
+  <div class="mainContainer">
+    <!-- Navbar Section -->
+    <div class="nav">
+        <!-- From Uiverse.io by eslam-hany -->
+        <div class="button-container">
+          <!-- Link to Home page -->
+          <a href="/" class="button">
+            <i class="fas fa-home"></i> <!-- Home icon -->
+          </a>
+      
+          <!-- Link to Profile page -->
+          <a href="https://faizkhanpy.pythonanywhere.com/" class="button">
+            <i class="fas fa-user"></i> <!-- User icon -->
+          </a>
+      
+          <!-- Link to GitHub -->
+          <a href="https://github.com/faizkhan77" target="_blank" class="button">
+            <i class="fab fa-github"></i> <!-- GitHub icon -->
+          </a>
+      
+          <!-- Link to LinkedIn -->
+          <a href="https://www.linkedin.com/in/faiz-khan77/" target="_blank" class="button">
+            <i class="fab fa-linkedin"></i> <!-- LinkedIn icon -->
+          </a>
+        </div>
+      </div>
+
+    <!-- Main Content Section -->
+    <div class="container">
+      <div class="header">
+        <h1>DrowzeeGuard - Results</h1>
+        <p>Below is the processed video. Watch the result and download the video for your reference</p>
+      </div>
+
+      <div class="image-container">
+        <video src="{{ url_for('static', filename='outputs/videos/' + filename) }}" controls style="width: 100%; max-width: 800px; height: auto;"></video>
+      </div>    
+
+       <!-- Download Button Section -->
+        <div class="download-btn">
+
+            <a href="/" class="button1">Go Back</a>
+            <!-- Download Button Section -->
+            <div class="download-btn">
+                <button class="Btn" onclick="downloadVideo()">
+                <svg class="svgIcon" viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+                </svg>
+                <span class="icon2"></span>
+                <span class="tooltip">Download</span>
+                </button>
+            </div>
+
+            
+        </div>
+
+      <!-- <div class="back-btn">
+        
+      </div> -->
+
+      <footer>
+        Designed by <a href="#">Mohammed Faiz Khan</a>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    function downloadVideo() {
+        // Get the filename for the video
+        const filename = "{{ filename }}";  // Ensure you pass the filename dynamically from Flask
+        
+        // Create a temporary anchor element
+        const link = document.createElement("a");
+        link.href = "{{ url_for('static', filename='outputs/videos/' + filename) }}";  // Construct the file URL
+        link.download = filename;  // Set the filename for the downloaded file
+      
+        // Append the link to the body, trigger the click event, and remove the link
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      
+  </script>
+</body>
+</html>

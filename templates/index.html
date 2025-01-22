@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrowzeeGuard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<div class="mainContainer">
+    <!-- Navbar Section -->
+    <div class="nav">
+      <!-- From Uiverse.io by eslam-hany -->
+      <div class="button-container">
+        <!-- Link to Home page -->
+        <a href="/" class="button">
+          <i class="fas fa-home"></i> <!-- Home icon -->
+        </a>
+    
+        <!-- Link to Profile page -->
+        <a href="https://faizkhanpy.pythonanywhere.com/" class="button">
+          <i class="fas fa-user"></i> <!-- User icon -->
+        </a>
+    
+        <!-- Link to GitHub -->
+        <a href="https://github.com/faizkhan77" target="_blank" class="button">
+          <i class="fab fa-github"></i> <!-- GitHub icon -->
+        </a>
+    
+        <!-- Link to LinkedIn -->
+        <a href="https://www.linkedin.com/in/faiz-khan77/" target="_blank" class="button">
+          <i class="fab fa-linkedin"></i> <!-- LinkedIn icon -->
+        </a>
+      </div>
+    </div>
+    
+    
+
+    <!-- Main Content Section -->
+    <div class="container">
+      <div class="header">
+        <h1>DrowzeeGuard - Drowsiness Detection</h1>
+        <p>Upload an image or video, or start live detection using your webcam.</p>
+      </div>
+
+      <div class="options">
+        <form action="/upload" method="post" enctype="multipart/form-data" id="upload-form">
+          <div class="upload-container">
+            <!-- Input for single image/video -->
+            <label class="file-upload" id="fileLabel">
+              <span id="fileName">Upload Image/Video</span>
+              <input type="file" name="file" accept="image/*,video/*" class="file-input" id="fileInput">
+            </label>
+        
+            <!-- Input for folder -->
+            <label class="file-upload" id="folderLabel">
+              <span id="folderName">Select a folder</span>
+              <input type="file" name="folder" accept="image/*,video/*" class="file-input" id="folderInput" webkitdirectory>
+            </label>
+        
+            <!-- Submit button -->
+            <button type="submit" class="button1" id="detectButton" style="margin-right: 10px;">
+              Start Detection
+            </button>
+          </div>
+        </form>
+        
+          <button class="button1" id="start-detection">Start Live Detection</button>
+
+      </div>
+
+      <div class="alert" id="alertBox">Detection has started please wait...</div>
+
+      <footer>
+        Designed by <a href="#">Mohammed Faiz Khan</a>
+      </footer>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Redirect to live detection page
+      const startDetectionButton = document.getElementById("start-detection");
+      if (startDetectionButton) {
+        startDetectionButton.addEventListener("click", function () {
+          window.location.href = "/live_detection"; // Redirect to the live detection page
+        });
+      }
+  
+      const fileInput = document.getElementById("fileInput");
+      const folderInput = document.getElementById("folderInput");
+      const fileNameSpan = document.getElementById("fileName");
+      const folderNameSpan = document.getElementById("folderName");
+      const detectButton = document.getElementById("detectButton");
+      const alertBox = document.getElementById("alertBox");
+  
+      // Initially disable the submit button
+      detectButton.disabled = true;
+  
+      // Handle single image/video upload
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+          fileNameSpan.textContent = fileInput.files[0].name; // Show selected file name
+          folderInput.disabled = true; // Disable folder input
+          detectButton.disabled = false; // Enable the submit button
+        } else {
+          fileNameSpan.textContent = "Upload Image/Video"; // Reset label if no file is selected
+          folderInput.disabled = false; // Enable folder input
+          detectButton.disabled = true; // Disable the submit button
+        }
+      });
+  
+      // Handle folder upload
+      folderInput.addEventListener("change", () => {
+        if (folderInput.files.length > 0) {
+          folderNameSpan.textContent = "Folder Selected"; // Show folder selected message
+          fileInput.disabled = true; // Disable file input
+          detectButton.disabled = false; // Enable the submit button
+        } else {
+          folderNameSpan.textContent = "Select a folder"; // Reset label if no folder is selected
+          fileInput.disabled = false; // Enable file input
+          detectButton.disabled = true; // Disable the submit button
+        }
+      });
+  
+      // Loader HTML to be dynamically inserted
+      const loaderHTML = `
+        <div class="center-body">
+          <div class="loader-circle-9">
+            Loading
+            <span></span>
+          </div>
+        </div>
+      `;
+  
+      // Event listener for the "Start Detection" button
+      detectButton.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevent form submission for custom logic
+  
+        // Check if any input is selected
+        if (fileInput.files.length === 0 && folderInput.files.length === 0) {
+          alertBox.textContent = "Please upload an image, video, or select a folder!";
+          alertBox.style.display = "block";
+          alertBox.style.background = "rgba(255, 0, 0, 0.2)";
+          alertBox.style.color = "#ff0000";
+        } else {
+          // Show the loader
+          alertBox.innerHTML = loaderHTML;
+          alertBox.style.display = "block";
+  
+          // Simulate loading for 3 seconds before proceeding to the next page
+          setTimeout(() => {
+            // Submit the form after the loader
+            document.getElementById("upload-form").submit();
+          }, 3000); // Adjust time as needed
+        }
+      });
+    });
+  </script>
+  
+  </body>
+  
+</html>

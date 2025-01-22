@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drowsiness Detection - Results</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+    line-height: 1.6;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Main Container */
+.mainContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.container {
+    /* width: 90%; */
+    /* max-width: 1200px; */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowingText 2s infinite;
+}
+
+@keyframes glowingText {
+
+    0%,
+    100% {
+        text-shadow: 0 0 10px #00d2ff, 0 0 20px #3a7bd5, 0 0 30px #00d2ff;
+    }
+
+    50% {
+        text-shadow: 0 0 20px #3a7bd5, 0 0 30px #00d2ff, 0 0 40px #3a7bd5;
+    }
+}
+
+.header p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+.options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.button1 {
+    display: inline-block;
+    background: #00d2ff;
+    color: #000;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.button1:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+}
+
+.upload-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-upload {
+    /* display: inline-block;
+    position: relative;
+    overflow: hidden; */
+    padding: 15px 20px;
+    text-align: center;
+
+    background: #203a43;
+    border: 2px dashed #00d2ff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.file-upload:hover {
+    background: #2c5364;
+}
+
+.file-upload input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    cursor: pointer;
+}
+
+.alert {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 255, 0, 0.2);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    text-align: center;
+    border-radius: 5px;
+    display: none;
+}
+
+footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+footer a {
+    color: #00d2ff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Media Query for Small Screens */
+@media (max-width: 768px) {
+    .upload-container {
+        flex-direction: column;
+        /* Stack items vertically */
+        align-items: center;
+        /* Center items horizontally */
+        margin: 0 auto;
+        /* Center the container itself */
+    }
+
+    .button1,
+    .file-upload {
+        width: 90%;
+        /* Make buttons and file upload take up most of the width */
+        margin-bottom: 15px;
+        /* Add space between stacked elements */
+        text-align: center;
+        /* Ensure content inside is centered */
+    }
+}
+
+
+/* NAVBAR DESIGNS */
+.nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    /* background-color: #fff; */
+    border-radius: 8px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+/* From Uiverse.io by eslam-hany */
+.button-container {
+    display: flex;
+    background-color: rgba(0, 73, 144);
+    width: 250px;
+    height: 40px;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+        rgba(0, 73, 144, 0.5) 5px 10px 15px;
+    transition: all 0.5s;
+    /* margin-bottom: 100px; */
+}
+
+.button-container:hover {
+    width: 300px;
+    transition: all 0.5s;
+}
+
+.button {
+    outline: 0 !important;
+    border: 0 !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+}
+
+.icon {
+    font-size: 20px;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .button-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .upload-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .header p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .button {
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+    }
+
+    .icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .button1 {
+        width: 100%;
+    }
+
+    .file-upload {
+        width: 100%;
+    }
+
+    footer {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+/* for display_image.html */
+.image-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-btn a {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.back-btn a:hover {
+    background-color: #0056b3;
+}
+
+
+.image-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.back-btn a {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.back-btn a:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+/* From Uiverse.io by simontheonlyone */ 
+
+.btn-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dbutton {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.3em;
+  height: 5.3em;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.4em;
+  background: rgba(235, 252, 254, 0.8);
+}
+
+.dbtn-container {
+  position: relative;
+  width: 3.5em;
+  height: 3.1em;
+  background: none;
+  overflow: hidden;
+}
+
+.folder {
+  content: "";
+  position: absolute;
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, .3); */
+}
+
+.folder_one {
+  bottom: 0;
+  width: 100%;
+  height: 88%;
+  border-radius: 3px;
+  border-top: 2px solid rgb(206, 167, 39);
+  /* background-color: rgb(252, 212, 80); */
+  background: linear-gradient(-35deg, rgb(238, 194, 47) 5%, rgb(255, 223, 118));
+}
+
+.folder_two {
+  top: 5%;
+  width: 38%;
+  height: 19%;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-color: rgb(206, 167, 39);
+  box-shadow: 0 1px 5px -2px rgba(0, 0, 0, 0.5);
+}
+
+.folder_two::before {
+  content: "";
+  position: absolute;
+  display: inline;
+  left: 88%;
+  width: 0;
+  height: 0;
+  border-left: 7px solid rgb(206, 167, 39);
+  border-top: 0.3em solid transparent;
+  border-bottom: 0.3em solid transparent;
+  /* background-color: rgb(206, 167, 39); */
+}
+
+.folder_three {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0.5em;
+  bottom: 0;
+  width: 2.5em;
+  height: 0.9em;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(-35deg, rgb(25, 102, 218), rgb(109, 165, 249));
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+.folder_four {
+  left: 1em;
+  bottom: 0.3em;
+  width: 1.5em;
+  height: 0.18em;
+  border-radius: 1em;
+  background-color: rgb(20, 77, 163);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.active_line {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 0.9em;
+  height: 0.4em;
+  background-color: #999;
+  border: none;
+  border-radius: 1em;
+  transition: all 0.15s linear;
+}
+
+.dbutton:active .active_line,
+.dbutton:focus .active_line {
+  width: 2.3em;
+  background-color: rgb(41, 126, 255);
+}
+
+.dbutton:focus .dbtn-container {
+  animation: wow 1s forwards;
+}
+
+@keyframes wow {
+  20% {
+    scale: 0.8;
+  }
+
+  30% {
+    scale: 1;
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  65% {
+    transform: translateY(4px);
+  }
+
+  80% {
+    transform: translateY(0);
+  }
+
+  100% {
+    scale: 1;
+  }
+}
+
+.text {
+  content: "";
+  position: absolute;
+  top: -4.5em;
+  width: 7.7em;
+  height: 2.6em;
+  background-color: #666;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  text-shadow: 0 0 10px rgb(0, 0, 0);
+  opacity: 0;
+  transition: all 0.25s linear;
+}
+
+.dbutton:hover .text {
+  opacity: 1;
+}
+
+  
+
+  </style>
+</head>
+<body>
+  <div class="mainContainer">
+    <!-- Navbar Section -->
+    <div class="nav">
+        <!-- From Uiverse.io by eslam-hany -->
+        <div class="button-container">
+          <!-- Link to Home page -->
+          <a href="/" class="button">
+            <i class="fas fa-home"></i> <!-- Home icon -->
+          </a>
+      
+          <!-- Link to Profile page -->
+          <a href="https://faizkhanpy.pythonanywhere.com/" class="button">
+            <i class="fas fa-user"></i> <!-- User icon -->
+          </a>
+      
+          <!-- Link to GitHub -->
+          <a href="https://github.com/faizkhan77" target="_blank" class="button">
+            <i class="fab fa-github"></i> <!-- GitHub icon -->
+          </a>
+      
+          <!-- Link to LinkedIn -->
+          <a href="https://www.linkedin.com/in/faiz-khan77/" target="_blank" class="button">
+            <i class="fab fa-linkedin"></i> <!-- LinkedIn icon -->
+          </a>
+        </div>
+      </div>
+
+    <!-- Main Content Section -->
+    <div class="container">
+      <div class="header">
+        <h1>Your Folder has been processed successfully!</h1>
+        <p>Click the button below to download the processed folder as a ZIP file.</p>
+      </div>
+
+
+  <div class="btn-wrapper">
+        <!-- Download button for the ZIP file -->
+<button class="dbutton" onclick="downloadZip()">
+    <div class="dbtn-container">
+      <div class="folder folder_one"></div>
+      <div class="folder folder_two"></div>
+      <div class="folder folder_three"></div>
+      <div class="folder folder_four"></div>
+    </div>
+    <div class="active_line"></div>
+    <span class="text">Download ZIP</span>
+  </button>
+
+  </div>
+
+      <!-- Download Button Section -->
+      <div class="download-btn">
+        <a href="/" class="button1">Go Back</a>
+    </div>
+
+      <footer>
+        Designed by <a href="#">Mohammed Faiz Khan</a>
+      </footer>
+    </div>
+  </div>
+
+
+  <script>
+    function downloadZip() {
+      // Get the filename dynamically (passed from Flask template)
+      const zipFilename = "{{ zip_filename }}";
+      
+      // Create a temporary anchor element to trigger the download
+      const link = document.createElement("a");
+      link.href = "{{ url_for('download_file', filename=zip_filename) }}";  // The download URL
+      link.download = zipFilename;  // Set the filename for the download
+      
+      // Append the link to the body, trigger the click event, and remove the link
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+
+</body>
+</html>
