@@ -14,7 +14,7 @@
 - Upload images, videos, or entire folders for quick detection.  
 - Live detection using a webcam (requires GPU for best performance).  
 - ZIP download of bulk detection results.  
-- Built with YOLOv5 for accurate and fast detection.  
+- Built with YOLO11 for accurate and fast detection.  
 
 ## Folder Structure  
 
